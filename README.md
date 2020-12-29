@@ -58,3 +58,18 @@ minikube dashboard
     ```
     You should see the message `this is the app version 1.0` 
 3. Create a service
+    * See ./src/services/service-app.yaml
+    * Apply your service:
+    ```sh
+    kubectl apply -f ./src/services/service-app.yaml
+    ```
+
+    * See your services:
+    ```
+    kubectl get services
+    ```
+    * Call your service:
+    ```
+    curl $(minikube ip):30007/echo
+    ```
+    You should see the message `this is the app version 1.0` 
