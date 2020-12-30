@@ -73,3 +73,57 @@ minikube dashboard
     curl $(minikube ip):30007/echo
     ```
     You should see the message `{"message":"This is an Echo message!","version":"1.0.0"}` 
+
+4. Deploy a new app version:
+    * Build a new version:
+    ```
+    eval $(minikube docker-env)
+    docker build -f ./src/app/Dockerfile --build-arg VERSION=2.0.0 -t local/app:2.0.0 ./src/app
+    ``` 
+    * Apply a deployment for this new version:
+    ```sh
+    kubectl apply -f ./src/deployments/deployment-app-v2.yaml
+    ```
+    * Now execute the `curl` method again and you will see that your request go to both app versions: 
+    `curl $(minikube ip):30007/echo` sometimes returns `{"message":"This is an Echo message!","version":"1.0.0"}` and sometimes `{"message":"This is an Echo message!","version":"2.0.0"}`
+
+    This happens because our service is targeting pods with the label `run=app` and both our versions has it. The only difference is that the old version has the `version=v1` label and the new one has the `version=v2` label.
+
+5. Do a rolling update deployment:
+    * Delete all of your previous deployments:
+    ```
+    kubectl delete deployments --all
+    ```
+    * Deploy the `deployment-rolling-v1` deployment:
+    ```
+    kubectl apply -f ./src/deployments/deployment-rolling-v1.yaml
+    ```
+    * Take a look at your pods and their labels: 
+    ```
+    kubectl get pods --show-labels
+    ```
+    Something similar should come up:
+    ```
+    NAME                   READY   STATUS    RESTARTS   AGE   LABELS
+    app-69bb7769f4-t2q2z   1/1     Running   0          93s   pod-template-hash=69bb7769f4,run=app
+    ```
+    Execute the `curl` method again:
+    ```
+    curl $(minikube ip):30007/echo
+    ```
+    The app will return:
+    ```
+    {"message":"This is an Echo message!","version":"1.0.0"}
+    ```
+
+    * Let's deploy the "same" deployment (using the same name), but changing the app version to the `2.0.0`:
+    ```
+    kubectl apply -f ./src/deployments/deployment-rolling-v2.yaml
+    ```
+    If you go fast enough, will can see the pods changing from the version `1.0.0` to the version `2.0.0` when executing `kubectl get pods`:
+    ```
+    NAME                   READY   STATUS        RESTARTS   AGE   LABELS
+    app-6f45b9596-p5n5s    0/1     Terminating   0          32s   pod-template-hash=6f45b9596,run=app
+    app-79686874fc-crzhv   1/1     Running       0          4s    pod-template-hash=79686874fc,run=app
+    ```
+    And when we call `curl $(minikube ip):30007/echo`. The app will return: `{"message":"This is an Echo message!","version":"2.0.0"}`

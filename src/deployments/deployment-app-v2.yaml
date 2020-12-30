@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appv1
+  name: appv2
 spec:
   selector:
     matchLabels:
       run: app
-      version: v1
+      version: v2
   replicas: 1
   template:
     metadata:
       labels:
         run: app
-        version: v1
+        version: v2
     spec:
       containers:
-      - name: app-v1
+      - name: app-v2
         # imagePullPolicy: Never
-        image: local/app:1.0.0
+        image: local/app:2.0.0
         ports:
         - containerPort: 80
