@@ -56,7 +56,7 @@ minikube dashboard
     ```
     curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/echo
     ```
-    You should see the message `this is the app version 1.0` 
+    You should see the message `{"message":"This is an Echo message!","version":"1.0.0"}` 
 3. Create a service
     * See ./src/services/service-app.yaml
     * Apply your service:
@@ -72,4 +72,4 @@ minikube dashboard
     ```
     curl $(minikube ip):30007/echo
     ```
-    You should see the message `this is the app version 1.0` 
+    You should see the message `{"message":"This is an Echo message!","version":"1.0.0"}` 
