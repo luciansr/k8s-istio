@@ -74,7 +74,7 @@ minikube dashboard
     ```
     You should see the message `{"message":"This is an Echo message!","version":"1.0.0"}` 
 
-4. Deploy a new app version:
+4. Deploy a new app version alongside the old one:
     * Build a new version:
     ```
     eval $(minikube docker-env)
