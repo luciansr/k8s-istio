@@ -24,8 +24,8 @@ minikube dashboard
     * To test your App v1 image:
     ```
     eval $(minikube docker-env)
-    docker build -f ./src/appv1/Dockerfile -t local/appv1 ./src/appv1
-    docker run --rm -it -p 8080:80 local/appv1
+    docker build -f ./src/app/Dockerfile --build-arg VERSION=1.0.0 -t local/app:1.0.0 ./src/app
+    docker run --rm -it -p 8080:80 local/app:1.0.0
     curl localhost:8080/echo 
     ```
 

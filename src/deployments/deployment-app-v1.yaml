@@ -5,16 +5,18 @@ metadata:
 spec:
   selector:
     matchLabels:
-      run: appv1
+      run: app
+      version: v1
   replicas: 1
   template:
     metadata:
       labels:
-        run: appv1
+        run: app
+        version: v1
     spec:
       containers:
-      - name: appv1
+      - name: app-v1
         imagePullPolicy: Never
-        image: local/appv1
+        image: local/app:1.0.0
         ports:
         - containerPort: 80

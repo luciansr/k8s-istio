@@ -1,21 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: appv1
+  name: app
   labels:
-    run: appv1
+    run: app
+    version: v1
 spec:
   containers:
-  - name: appv1
-    imagePullPolicy: Never
-    image: local/appv1
+  - name: app-v1
+    image: local/app:1.0.0
     ports:
     - containerPort: 80
-# spec:
-#   containers:
-#     - name: appv1
-#       image: nginx
-#       ports:
-#         - name: web
-#           containerPort: 80
-#           protocol: TCP
