@@ -1,5 +1,7 @@
 # k8s-istio
 
+# Kubernetes basics
+
 ## Install Minikube
 https://minikube.sigs.k8s.io/docs/start/
 
@@ -127,3 +129,37 @@ minikube dashboard
     app-79686874fc-crzhv   1/1     Running       0          4s    pod-template-hash=79686874fc,run=app
     ```
     And when we call `curl $(minikube ip):30007/echo`. The app will return: `{"message":"This is an Echo message!","version":"2.0.0"}`
+
+    # Enabling Istio
+
+    https://istio.io/latest/docs/setup/getting-started/
+    1. Download Istio and add it to your Path variable
+    2. Install the Istio demo configuration profile on our Minikube cluster
+    ```
+    istioctl install --set profile=demo -y
+    ```
+
+    ## Creating a canary deployment
+    1. Delete all deployments
+    ```
+    kubectl delete deployments --all
+    ```
+    2. Apply the `deployment-app-v1.yaml` and `deployment-app-v2.yaml`:
+    ```sh
+    kubectl apply -f ./src/deployments/deployment-app-v1.yaml
+    kubectl apply -f ./src/deployments/deployment-app-v2.yaml
+    ```
+    3. Now to configure a ingress gateway on our cluster, apply all resources inside the `istio` folder:
+
+    ```sh
+    kubectl apply -f ./src/istio
+    ```
+    4. Set your `INGRESS_PORT` variable by getting the values from the `istio-ingressgateway.istio-system` service node port value:
+    ```
+    export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+    ```
+    5. Test your ingress virtual service routing rules:
+    ```
+    curl $(minikube ip):$INGRESS_PORT/echo
+    ```
+    6. Play with the routing rules on the `./src/istio/ingress-virtual-service-yaml` file
