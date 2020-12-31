@@ -122,7 +122,7 @@ minikube dashboard
     ```
     kubectl apply -f ./src/deployments/deployment-rolling-v2.yaml
     ```
-    If you go fast enough, will can see the pods changing from the version `1.0.0` to the version `2.0.0` when executing `kubectl get pods`:
+    If you go fast enough, you can see the pods changing from version `1.0.0` to version `2.0.0` when executing `kubectl get pods`:
     ```
     NAME                   READY   STATUS        RESTARTS   AGE   LABELS
     app-6f45b9596-p5n5s    0/1     Terminating   0          32s   pod-template-hash=6f45b9596,run=app
@@ -153,7 +153,7 @@ minikube dashboard
     kubectl apply -f ./src/deployments/deployment-app-v1.yaml
     kubectl apply -f ./src/deployments/deployment-app-v2.yaml
     ```
-    3. Now to configure a ingress gateway on our cluster, apply all resources inside the `istio` folder:
+    3. Now to configure an ingress gateway on our cluster, apply all resources inside the `istio` folder:
 
     ```sh
     kubectl apply -f ./src/istio
