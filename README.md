@@ -167,3 +167,11 @@ minikube dashboard
     curl $(minikube ip):$INGRESS_PORT/echo
     ```
     6. Play with the routing rules on the `./src/istio/ingress-virtual-service-yaml` file
+
+    # See your mesh metrics
+    
+    1. Install Kiali and Prometheus
+    ```
+    kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
+    kubectl apply -f ${ISTIO_HOME}/samples/addons/prometheus.yaml
+    ```
