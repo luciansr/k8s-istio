@@ -138,6 +138,10 @@ minikube dashboard
     ```
     istioctl install --set profile=demo -y
     ```
+    3. Enable istio automatic injection on the `default` namespace:
+    ```
+    kubectl label namespace default istio-injection=enabled
+    ```
 
     ## Creating a canary deployment
     1. Delete all deployments

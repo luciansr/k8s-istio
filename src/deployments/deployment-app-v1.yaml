@@ -6,12 +6,14 @@ spec:
   selector:
     matchLabels:
       run: app
+      app: echo
       version: v1
   replicas: 1
   template:
     metadata:
       labels:
         run: app
+        app: echo
         version: v1
     spec:
       containers:
