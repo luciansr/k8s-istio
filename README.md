@@ -175,3 +175,15 @@ minikube dashboard
     kubectl apply -f ${ISTIO_HOME}/samples/addons/kiali.yaml
     kubectl apply -f ${ISTIO_HOME}/samples/addons/prometheus.yaml
     ```
+    2. Open Kiali and play a little bit:
+    ```
+    istioctl dashboard kiali
+    ```
+    3. You may also try Jeager and Grafana:
+    ```
+    kubectl apply -f ${ISTIO_HOME}/samples/addons/jaeger.yaml
+    kubectl apply -f ${ISTIO_HOME}/samples/addons/grafana.yaml
+    ```
+    (You can open each dashboard using `istioctl dashboard <service>`)
+
+    # Advanced routing on the Istio Ingress Gateway
